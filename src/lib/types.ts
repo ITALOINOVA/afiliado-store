@@ -19,6 +19,9 @@ export interface Product {
   createdAt: string
   updatedAt: string
   published: boolean
+  // Campos opcionais expandidos
+  category?: string
+  description?: string
 }
 
 export interface UserData {

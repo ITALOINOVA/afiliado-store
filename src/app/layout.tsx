@@ -6,8 +6,8 @@ import { StoreProvider } from "@/contexts/StoreContext"
 import { AuthProvider } from "@/contexts/AuthContext"
 
 export const metadata: Metadata = {
-  title: "Afiliado Store",
-  description: "As melhores promoções você encontra aqui!",
+  title: "JCG Distribuidora — Receptores, Antenas, Smart TV Box e muito mais",
+  description: "As melhores ofertas em receptores satélite, LNBFs, antenas parabólicas e Smart TV Box. Preços de atacado com entrega para todo o Brasil.",
 }
 
 export default async function RootLayout({

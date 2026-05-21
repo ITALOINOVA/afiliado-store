@@ -73,7 +73,7 @@ export function FormEditProduct({ id }: { id: string }) {
   // Função para realizar a pesquisa de produtos usando a API
   const fetchProductAPI = React.useCallback(async () => {
     try {
-      const response: Product = await fetchProduct(id)
+      const response = await fetchProduct(id) as Product
 
       // Convertendo cupomValue, currentPrice, originalPrice para string
       const updatedProduct: any = {

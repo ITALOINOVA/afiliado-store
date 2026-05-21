@@ -2,7 +2,6 @@
 import * as React from "react"
 import Autoplay from "embla-carousel-autoplay"
 
-import { Card, CardContent } from "@/components/ui/card"
 import {
   Carousel,
   CarouselContent,
@@ -13,24 +12,36 @@ import useStoreInfo from "@/hooks/useStore"
 export function CarouselHomeMobile() {
   const storeInfo = useStoreInfo()
   const plugin = React.useRef(
-    Autoplay({ delay: 5000, stopOnInteraction: true })
+    Autoplay({ delay: 4000, stopOnInteraction: true })
   )
+
+  // Usa mobileBanners se existir, senão cai para banners normais
+  const banners =
+    storeInfo?.storeConfig?.mobileBanners?.length
+      ? storeInfo.storeConfig.mobileBanners
+      : storeInfo?.storeConfig?.banners ?? []
+
+  if (!banners.length) return null
+
   return (
-    <Carousel
-      plugins={[plugin.current]}
-      className="md:hidden"
-      onMouseEnter={plugin.current.stop}
-      onMouseLeave={plugin.current.reset}
-    >
-      <CarouselContent>
-        {storeInfo?.storeConfig?.mobileBanners?.map((banner, index) => (
-          <CarouselItem key={index}>
-            <div>
-                  <img src={banner} className="w-full h-80 object-cover" />
-            </div>
-          </CarouselItem>
-        ))}
-      </CarouselContent>
-    </Carousel>
+    <div className="md:hidden w-full">
+      <Carousel
+        plugins={[plugin.current]}
+        onMouseEnter={plugin.current.stop}
+        onMouseLeave={plugin.current.reset}
+      >
+        <CarouselContent className="-ml-0">
+          {banners.map((banner, index) => (
+            <CarouselItem key={index} className="pl-0">
+              <img
+                src={banner}
+                alt={`Banner ${index + 1}`}
+                className="w-full h-52 object-cover"
+              />
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+      </Carousel>
+    </div>
   )
 }

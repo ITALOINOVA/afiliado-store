@@ -1,0 +1,28 @@
+{
+  "id": "jcgdistribuidora",
+  "storeName": "JCG Distribuidora",
+  "storeDescription": "Receptores, LNBFs, Antenas Parabólicas e mais. As melhores marcas com preço de atacado.",
+  "storeLogo": null,
+  "storeContact": {
+    "socialWhatsApp": "5511999998888",
+    "socialInstagram": null,
+    "socialFacebook": null,
+    "socialTelegram": null,
+    "address": null,
+    "phone": null,
+    "email": null
+  },
+  "storeConfig": {
+    "color": "blue",
+    "navbar": null,
+    "banners": [
+      "https://http2.mlstatic.com/D_Q_NP_2X_626539-MLA108095693888_032026-AB.webp",
+      "https://http2.mlstatic.com/D_Q_NP_2X_940559-MLA110280892999_042026-AB.webp",
+      "https://http2.mlstatic.com/D_Q_NP_2X_969278-MLA99992709659_112025-AB.webp"
+    ],
+    "mobileBanners": [
+      "https://http2.mlstatic.com/D_Q_NP_2X_626539-MLA108095693888_032026-AB.webp",
+      "https://http2.mlstatic.com/D_Q_NP_2X_940559-MLA110280892999_042026-AB.webp"
+    ]
+  }
+}

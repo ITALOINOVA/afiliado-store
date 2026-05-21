@@ -1,52 +1,68 @@
-// Importa os módulos necessários
 "use client"
 import * as React from "react"
-import { fetchProducts, searchProducts } from "@/lib/api"
+import { fetchProducts } from "@/lib/api"
 import ProductCard from "@/components/ProductCard"
 import { Product } from "@/lib/types"
 import { cn } from "@/lib/utils"
 
-// Componente funcional ProductList
-const ProductList = (
-  { className, limit = 0 }: { className?: string, limit?: number }
-) => {
-  // Estado para armazenar os produtos da pesquisa
+interface ProductListProps {
+  className?: string
+  limit?: number
+  offset?: number
+  /** Se true, usa display: contents para encaixar no grid do pai */
+  grid?: boolean
+}
+
+const ProductList = ({
+  className,
+  limit = 0,
+  offset = 0,
+  grid = false,
+}: ProductListProps) => {
   const [products, setProducts] = React.useState<Product[]>([])
 
-  // Função para realizar a pesquisa de produtos usando a API
   const fetchProductsAPI = React.useCallback(async () => {
     try {
       const response: Product[] = await fetchProducts()
-      if (response) {
-        console.log(response)
-        setProducts(response)
-      }
+      if (response) setProducts(response)
     } catch (error) {
       console.error("Erro ao buscar produtos", error)
       setProducts([])
-      return []
     }
   }, [])
 
-  // Efeito para acionar a pesquisa quando o termo de pesquisa é alterado
   React.useEffect(() => {
     fetchProductsAPI()
   }, [])
 
-  // Renderiza o componente
+  const slice = products.slice(
+    offset,
+    limit > 0 ? offset + limit : undefined
+  )
+
+  if (grid) {
+    // Renderiza apenas os cards (sem wrapper) para o grid do pai
+    return (
+      <>
+        {slice.map((product) => (
+          <ProductCard key={product.customId} product={product} />
+        ))}
+      </>
+    )
+  }
+
   return (
     <div
       className={cn(
-        "flex flex-col flex-wrap justify-center items-center align-middle gap-3 sm:w-2/3 mx-auto sm:flex-row",
+        "flex flex-wrap justify-center gap-3",
         className
       )}
     >
-      {products.slice(0, limit > 0 ? limit : products.length).map((product) => (
+      {slice.map((product) => (
         <ProductCard key={product.customId} product={product} />
       ))}
     </div>
   )
 }
 
-// Exporta o componente SearchList como padrão
 export default ProductList

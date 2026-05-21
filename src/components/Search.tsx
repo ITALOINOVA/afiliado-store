@@ -25,8 +25,8 @@ const Search = ({ className, open = true }: SearchProps) => {
       {open ? (
         <Input
           type="search"
-          placeholder="Pesquisar..."
-          className={cn("md:w-[100px] lg:w-[300px]", className)}
+          placeholder="Buscar produtos..."
+          className={cn("w-full", className)}
           onChange={(e) => setSearchTerm(e.target.value)}
           onKeyDown={(e) => {
             // Se pressionar Enter, realiza a pesquisa
