@@ -4,6 +4,38 @@ import { Button } from "./ui/button"
 import Link from "next/link"
 import { Product } from "@/lib/types"
 import { formatCurrency } from "@/lib/utils"
+import { OfferTimer } from "./OfferTimer"
+
+// Badge de popularidade (Pelando-style temperatura)
+function getPopularityBadge(clicks: number): string | null {
+  if (clicks >= 50) return "🔥 Mais vendido"
+  if (clicks >= 20) return "🔥 Em alta"
+  if (clicks >= 5)  return "⚡ Popular"
+  return null
+}
+
+// Temperatura estilo Pelando — mostra N° com cor por faixa
+function TemperatureBadge({ clicks }: { clicks: number }) {
+  if (clicks < 1) return null
+  const display = clicks >= 1000 ? `${(clicks / 1000).toFixed(1)}k°` : `${clicks}°`
+  const hot = clicks >= 20
+  return (
+    <span
+      className={`absolute bottom-2 left-2 z-10 text-[10px] font-black px-1.5 py-0.5 rounded-full leading-tight shadow-sm ${
+        hot
+          ? "bg-orange-500 text-white"
+          : "bg-muted text-muted-foreground border border-border"
+      }`}
+    >
+      {display}
+    </span>
+  )
+}
+
+function trackClick(customId: string) {
+  // Fire-and-forget — não bloqueia o redirecionamento
+  fetch(`/api/products/${customId}/click`, { method: "POST" }).catch(() => {})
+}
 
 export default function ProductCard({ product }: { product: Product }) {
   const hasDiscount =
@@ -15,16 +47,25 @@ export default function ProductCard({ product }: { product: Product }) {
   const installmentText =
     product.conditionPayment ||
     `6x de R$ ${formatCurrency(product.currentPrice / 6)}`
+  const popularBadge = getPopularityBadge(product.totalClicks ?? 0)
 
   return (
     <Card className="w-full rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-200 flex flex-col group">
       {/* Imagem */}
       <div className="relative bg-white">
+        {/* Badge de desconto */}
         {hasDiscount && (
           <span className="absolute top-2 left-2 z-10 bg-primary text-primary-foreground text-[10px] font-bold px-1.5 py-0.5 rounded-full leading-tight">
             -{discountPct}%
           </span>
         )}
+        {/* Badge de popularidade */}
+        {popularBadge && (
+          <span className="absolute top-2 right-2 z-10 bg-orange-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full leading-tight">
+            {popularBadge}
+          </span>
+        )}
+        <TemperatureBadge clicks={product.totalClicks ?? 0} />
         <Link href={`/${product.customId}`}>
           <div className="flex items-center justify-center h-40 p-3 overflow-hidden">
             <img
@@ -65,12 +106,23 @@ export default function ProductCard({ product }: { product: Product }) {
 
         <p className="text-[10px] text-muted-foreground">{installmentText}</p>
 
-        {/* Usa <a> puro para garantir redirecionamento externo sem interferência do Next.js */}
+        {/* Timer de oferta */}
+        {product.updatedAt && <OfferTimer updatedAt={product.updatedAt} />}
+
+        {/* Badge de cupom */}
+        {product.cupom && (
+          <p className="text-[10px] font-bold text-orange-600 bg-orange-50 px-1.5 py-0.5 rounded border border-orange-200 w-fit">
+            🏷️ Cupom: {product.cupom}
+          </p>
+        )}
+
+        {/* Botão de compra com rastreamento de clique */}
         <a
           href={product.buyLink || `/${product.customId}`}
           target="_blank"
           rel="noopener noreferrer"
           className="mt-auto pt-2"
+          onClick={() => trackClick(product.customId)}
         >
           <Button size="sm" className="w-full text-xs font-bold h-8">
             Comprar

@@ -6,7 +6,7 @@ import Search from "@/components/Search"
 import { ModeToggle } from "./ModeToggle"
 import { MdOutlineSettings, MdOutlineDashboard } from "react-icons/md"
 import { FiLogOut, FiPackage, FiUser } from "react-icons/fi"
-import { LuPackagePlus } from "react-icons/lu"
+import { LuPackagePlus, LuPackageSearch } from "react-icons/lu"
 import Link from "next/link"
 import useStoreInfo from "@/hooks/useStore"
 import useAuthInfo from "@/hooks/useAuth"
@@ -97,6 +97,13 @@ export function AdminSidebar({ className }: { className?: string }) {
               <Button variant="ghost" className="w-full justify-start gap-2">
                 <LuPackagePlus className="text-primary" />
                 Criar produto
+              </Button>
+            </Link>
+
+            <Link href="/admin/products/bulk-import">
+              <Button variant="ghost" className="w-full justify-start gap-2">
+                <LuPackageSearch className="text-primary" />
+                Importar em lote
               </Button>
             </Link>
           </div>

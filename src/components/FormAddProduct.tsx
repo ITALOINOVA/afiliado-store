@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
-import { Product } from "@/lib/types"
+import { useState } from "react"
 import { toast } from "sonner"
 
 import { Button } from "@/components/ui/button"
@@ -45,6 +45,7 @@ const formSchema = z.object({
 })
 
 export function FormAddProduct() {
+  const [importing, setImporting] = useState(false)
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -119,6 +120,42 @@ export function FormAddProduct() {
     }
   }
 
+  async function onMLImport(event: React.MouseEvent<HTMLButtonElement>) {
+    event.preventDefault()
+    const url = form.getValues("urlProduct")
+    if (!url) {
+      toast.error("Cole o link de afiliado do Mercado Livre no campo URL.")
+      return
+    }
+    setImporting(true)
+    try {
+      const res = await fetch("/api/ml-import", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ url }),
+      })
+      const data = await res.json()
+      if (!res.ok) {
+        toast.error(data.error ?? "Erro ao importar produto.")
+        return
+      }
+      form.setValue("title", data.title ?? "")
+      form.setValue("image", data.image ?? "")
+      form.setValue("currentPrice", String(data.currentPrice ?? ""))
+      form.setValue("originalPrice", String(data.originalPrice ?? ""))
+      form.setValue("productCode", data.productCode ?? "")
+      form.setValue("website", data.website ?? "mercadolivre")
+      form.setValue("buyLink", data.buyLink ?? url)
+      toast.success("Produto importado do Mercado Livre!", {
+        description: data.title,
+      })
+    } catch {
+      toast.error("Falha na conexão ao importar produto.")
+    } finally {
+      setImporting(false)
+    }
+  }
+
   return (
     <Form {...form}>
       <form
@@ -138,11 +175,19 @@ export function FormAddProduct() {
                       {...field}
                       {...form.register("urlProduct")}
                     />
-                    <Button onClick={onAnalyze}>Analisar</Button>
+                    <Button onClick={onAnalyze} variant="outline">Analisar</Button>
+                    <Button
+                      onClick={onMLImport}
+                      disabled={importing}
+                      className="whitespace-nowrap"
+                    >
+                      {importing ? "Importando..." : "🛒 Importar ML"}
+                    </Button>
                   </div>
                 </FormControl>
                 <FormDescription>
-                  {"*(Opcional) Defina a URL que deseja analisar."}
+                  Cole aqui o link de afiliado do Mercado Livre e clique em{" "}
+                  <strong>Importar ML</strong> para preencher o formulário automaticamente.
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -293,6 +338,11 @@ export function FormAddProduct() {
               <FormControl>
                 <Input placeholder="https://..." {...field} />
               </FormControl>
+              {field.value && (
+                <div className="mt-2 w-24 h-24 border rounded-lg overflow-hidden bg-white flex items-center justify-center">
+                  <img src={field.value} alt="Preview" className="object-contain w-full h-full" />
+                </div>
+              )}
               <FormMessage />
             </FormItem>
           )}

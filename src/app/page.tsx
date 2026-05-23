@@ -1,8 +1,14 @@
+// Revalida a home a cada 5 minutos em vez de gerar estaticamente
+export const revalidate = 300
+
 import AnnouncementList from "@/components/AnnouncementList"
 import { CarouselHome } from "@/components/CarouselHome"
 import { CarouselHomeMobile } from "@/components/CarouselHomeMobile"
 import Navbar from "@/components/Navbar"
-import ProductList from "@/components/ProductList"
+import { HomeTabs } from "@/components/HomeTabs"
+import { StatsStrip } from "@/components/StatsStrip"
+import { ExpiringOffers } from "@/components/ExpiringOffers"
+import { WhatsAppFloat } from "@/components/WhatsAppFloat"
 
 export default function Home() {
   return (
@@ -19,58 +25,23 @@ export default function Home() {
         </div>
       </div>
 
+      {/* Barra de estatísticas (Cuponation-style) */}
+      <StatsStrip />
+
       <main className="max-w-7xl mx-auto px-3 sm:px-4 py-8 flex flex-col gap-12">
 
-        {/* Seção destaques */}
+        {/* Seção principal com tabs (Pelando-style) */}
         <section>
-          <div className="flex items-center gap-3 mb-5">
-            <div className="w-1 h-7 bg-primary rounded-full" />
-            <span className="text-2xl">🔥</span>
-            <h2 className="text-xl font-extrabold uppercase tracking-wide">
-              Destaques
-            </h2>
-            <div className="flex-1 h-px bg-border ml-1" />
-          </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
-            <ProductList limit={10} grid />
-          </div>
+          <HomeTabs />
         </section>
 
-        {/* Seção mais vendidos + sidebar */}
-        <section>
-          <div className="flex items-center gap-3 mb-5">
-            <div className="w-1 h-7 bg-yellow-400 rounded-full" />
-            <span className="text-2xl">⭐</span>
-            <h2 className="text-xl font-extrabold uppercase tracking-wide">
-              Mais Vendidos
-            </h2>
-            <div className="flex-1 h-px bg-border ml-1" />
-          </div>
-          <div className="flex flex-col lg:flex-row gap-6">
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 flex-1">
-              <ProductList limit={8} grid offset={10} />
-            </div>
-            {/* Sidebar de redes sociais — somente desktop */}
-            <aside className="hidden lg:flex flex-col w-60 shrink-0 gap-4">
-              <AnnouncementList />
-            </aside>
-          </div>
-        </section>
+        {/* Ofertas expirando em breve (urgência) */}
+        <ExpiringOffers />
 
-        {/* Seção novidades */}
-        <section>
-          <div className="flex items-center gap-3 mb-5">
-            <div className="w-1 h-7 bg-green-500 rounded-full" />
-            <span className="text-2xl">🆕</span>
-            <h2 className="text-xl font-extrabold uppercase tracking-wide">
-              Novidades do Mês
-            </h2>
-            <div className="flex-1 h-px bg-border ml-1" />
-          </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
-            <ProductList limit={10} grid offset={18} />
-          </div>
-        </section>
+        {/* Sidebar de redes sociais — somente desktop */}
+        <aside className="hidden lg:flex flex-col gap-4">
+          <AnnouncementList />
+        </aside>
 
       </main>
 
@@ -87,6 +58,9 @@ export default function Home() {
           </div>
         </div>
       </footer>
+
+      {/* Botão flutuante WhatsApp */}
+      <WhatsAppFloat />
     </>
   )
 }

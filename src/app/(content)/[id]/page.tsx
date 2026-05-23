@@ -33,8 +33,33 @@ export async function generateMetadata(
 export default async function ProductPage({ params }: Props) {
   const product = await fetchProduct(params.id)
 
+  const jsonLd = product
+    ? {
+        "@context": "https://schema.org",
+        "@type": "Product",
+        name: product.title,
+        image: product.image,
+        description: product.description ?? "As melhores promoções e ofertas",
+        sku: product.productCode,
+        offers: {
+          "@type": "Offer",
+          priceCurrency: "BRL",
+          price: product.currentPrice,
+          availability: "https://schema.org/InStock",
+          url: product.buyLink,
+          seller: { "@type": "Organization", name: "JCG Distribuidora" },
+        },
+      }
+    : null
+
   return (
     <>
+      {jsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      )}
       <Navbar />
       <main className="max-w-5xl mx-auto px-3 sm:px-4 py-8">
         <ProductHero product={product} />

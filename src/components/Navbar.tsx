@@ -6,13 +6,14 @@ import Search from "./Search"
 import useStoreInfo from "@/hooks/useStore"
 
 const CATEGORIES = [
-  { label: "Receptores Satélite", href: "/search?q=receptor" },
-  { label: "LNBFs / LNBs",        href: "/search?q=lnbf" },
-  { label: "Antenas Parabólicas",  href: "/search?q=antena" },
-  { label: "Smart TV Box",         href: "/search?q=smart+tv" },
-  { label: "Áudio & Fones",        href: "/search?q=fone" },
-  { label: "Cabos & Acessórios",   href: "/search?q=cabo" },
-  { label: "Atacado",              href: "/search?q=kit" },
+  { icon: "📡", label: "Receptores",        href: "/search?q=receptor" },
+  { icon: "🔵", label: "LNBFs / LNBs",      href: "/search?q=lnbf" },
+  { icon: "📶", label: "Antenas",            href: "/search?q=antena" },
+  { icon: "📺", label: "Smart TV Box",       href: "/search?q=smart+tv" },
+  { icon: "🎧", label: "Áudio & Fones",      href: "/search?q=fone" },
+  { icon: "🔌", label: "Cabos",              href: "/search?q=cabo" },
+  { icon: "📦", label: "Atacado",            href: "/search?q=kit" },
+  { icon: "🔥", label: "Mais Quentes",       href: "/search?q=" },
 ]
 
 const Navbar = () => {
@@ -56,8 +57,9 @@ const Navbar = () => {
             <li key={cat.href} className="shrink-0">
               <Link
                 href={cat.href}
-                className="block px-4 py-2 text-xs font-semibold hover:bg-primary-foreground/10 transition-colors whitespace-nowrap"
+                className="flex items-center gap-1.5 px-3 py-2 text-xs font-semibold hover:bg-primary-foreground/10 transition-colors whitespace-nowrap rounded"
               >
+                <span>{cat.icon}</span>
                 {cat.label}
               </Link>
             </li>
