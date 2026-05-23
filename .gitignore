@@ -29,6 +29,9 @@ yarn-error.log*
 .env*.local
 .env
 
+# dados locais (não versionar — gerados em runtime)
+/data/*.json
+
 # vercel
 .vercel
 

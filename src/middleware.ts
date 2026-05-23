@@ -1,27 +1,43 @@
 import { NextRequest, NextResponse } from "next/server"
-import { getToken } from "next-auth/jwt"
+import { createHash } from "crypto"
+
+function makeSessionToken(password: string): string {
+  const salt = process.env.SESSION_SECRET ?? "afiliado-store-salt"
+  return createHash("sha256").update(password + salt).digest("hex")
+}
 
 export default async function middleware(request: NextRequest) {
-  const token =
+  const { pathname } = request.nextUrl
+
+  // Rotas públicas do admin (login)
+  if (pathname === "/admin/login") {
+    return NextResponse.next()
+  }
+
+  // Protege /admin e sub-rotas
+  if (pathname.startsWith("/admin")) {
+    const ADMIN_PASS = process.env.ADMIN_PASSWORD
+    const session = request.cookies.get("admin_session")?.value
+
+    if (!ADMIN_PASS || !session || session !== makeSessionToken(ADMIN_PASS)) {
+      return NextResponse.redirect(new URL("/admin/login", request.url))
+    }
+    return NextResponse.next()
+  }
+
+  // Protege /auth (legacy next-auth)
+  const legacyToken =
     request.cookies.get("__Secure-next-auth.session-token")?.value ||
     request.cookies.get("next-auth.session-token")?.value ||
     request.cookies.get("token")?.value
 
-  const signInURL = new URL("/auth", request.url)
-  const dashboardURL = new URL("/admin", request.url)
-
-  if (!token) {
-    if (request.nextUrl.pathname == "/auth") {
-      return NextResponse.next()
-    }
-    return NextResponse.redirect(signInURL)
-  } else {
-    if (request.nextUrl.pathname == "/auth") {
-      return NextResponse.redirect(dashboardURL)
-    }
+  if (!legacyToken && pathname === "/profile") {
+    return NextResponse.redirect(new URL("/auth", request.url))
   }
+
+  return NextResponse.next()
 }
 
 export const config = {
-  matcher: ["/auth", "/admin/:path*"],
+  matcher: ["/admin/:path*", "/profile"],
 }
