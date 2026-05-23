@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Senha incorreta" }, { status: 401 })
   }
 
-  // Armazena hash da senha — nunca a senha em si
+  // Armazena hash SHA-256 — nunca a senha em texto puro
   const sessionToken = makeSessionToken(ADMIN_PASS)
   const cookieStore = cookies()
   cookieStore.set("admin_session", sessionToken, {

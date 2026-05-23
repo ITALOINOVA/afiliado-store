@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { cookies } from "next/headers"
 import { createHash } from "crypto"
 
+// Node.js crypto (para API routes — não roda no Edge Runtime)
 function makeSessionToken(password: string): string {
   const salt = process.env.SESSION_SECRET ?? "afiliado-store-salt"
   return createHash("sha256").update(password + salt).digest("hex")

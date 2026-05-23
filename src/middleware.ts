@@ -1,15 +1,19 @@
 import { NextRequest, NextResponse } from "next/server"
-import { createHash } from "crypto"
 
-function makeSessionToken(password: string): string {
+// Web Crypto API (compatível com Edge Runtime)
+async function makeSessionToken(password: string): Promise<string> {
   const salt = process.env.SESSION_SECRET ?? "afiliado-store-salt"
-  return createHash("sha256").update(password + salt).digest("hex")
+  const encoder = new TextEncoder()
+  const data = encoder.encode(password + salt)
+  const hashBuffer = await crypto.subtle.digest("SHA-256", data)
+  const hashArray = Array.from(new Uint8Array(hashBuffer))
+  return hashArray.map(b => b.toString(16).padStart(2, "0")).join("")
 }
 
 export default async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
 
-  // Rotas públicas do admin (login)
+  // Rota pública do admin (página de login)
   if (pathname === "/admin/login") {
     return NextResponse.next()
   }
@@ -19,25 +23,21 @@ export default async function middleware(request: NextRequest) {
     const ADMIN_PASS = process.env.ADMIN_PASSWORD
     const session = request.cookies.get("admin_session")?.value
 
-    if (!ADMIN_PASS || !session || session !== makeSessionToken(ADMIN_PASS)) {
+    if (!ADMIN_PASS || !session) {
       return NextResponse.redirect(new URL("/admin/login", request.url))
     }
+
+    const expectedToken = await makeSessionToken(ADMIN_PASS)
+    if (session !== expectedToken) {
+      return NextResponse.redirect(new URL("/admin/login", request.url))
+    }
+
     return NextResponse.next()
-  }
-
-  // Protege /auth (legacy next-auth)
-  const legacyToken =
-    request.cookies.get("__Secure-next-auth.session-token")?.value ||
-    request.cookies.get("next-auth.session-token")?.value ||
-    request.cookies.get("token")?.value
-
-  if (!legacyToken && pathname === "/profile") {
-    return NextResponse.redirect(new URL("/auth", request.url))
   }
 
   return NextResponse.next()
 }
 
 export const config = {
-  matcher: ["/admin/:path*", "/profile"],
+  matcher: ["/admin/:path*"],
 }
