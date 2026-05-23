@@ -29,12 +29,15 @@ export async function generateMetadata(
   }
 }
 
-export default function ProductPage({ params }: { params: { id: string } }) {
+// Server Component: busca o produto no servidor e passa como prop
+export default async function ProductPage({ params }: Props) {
+  const product = await fetchProduct(params.id)
+
   return (
     <>
       <Navbar />
       <main className="max-w-5xl mx-auto px-3 sm:px-4 py-8">
-        <ProductHero id={params.id} />
+        <ProductHero product={product} />
       </main>
     </>
   )

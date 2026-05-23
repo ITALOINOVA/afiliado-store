@@ -65,16 +65,17 @@ export default function ProductCard({ product }: { product: Product }) {
 
         <p className="text-[10px] text-muted-foreground">{installmentText}</p>
 
-        <Link
-          href={product.buyLink ?? `/${product.customId}`}
-          target={product.buyLink ? "_blank" : undefined}
-          rel={product.buyLink ? "noopener noreferrer" : undefined}
+        {/* Usa <a> puro para garantir redirecionamento externo sem interferência do Next.js */}
+        <a
+          href={product.buyLink || `/${product.customId}`}
+          target="_blank"
+          rel="noopener noreferrer"
           className="mt-auto pt-2"
         >
           <Button size="sm" className="w-full text-xs font-bold h-8">
             Comprar
           </Button>
-        </Link>
+        </a>
       </CardContent>
     </Card>
   )

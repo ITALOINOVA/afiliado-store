@@ -1,31 +1,13 @@
 "use client"
 import * as React from "react"
-import { fetchProduct } from "@/lib/api"
 import { Product } from "@/lib/types"
 import Link from "next/link"
 import { formatCurrency } from "@/lib/utils"
 import { Button } from "./ui/button"
 import ProductList from "./ProductList"
 
-const ProductHero = ({ id }: { id: string }) => {
-  const [product, setProduct] = React.useState<Product | null>(null)
-  const [loading, setLoading] = React.useState(true)
-
-  React.useEffect(() => {
-    fetchProduct(id)
-      .then((p) => setProduct(p))
-      .catch(() => setProduct(null))
-      .finally(() => setLoading(false))
-  }, [id])
-
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" />
-      </div>
-    )
-  }
-
+// Recebe o produto já resolvido pelo Server Component (page.tsx)
+const ProductHero = ({ product }: { product: Product | null }) => {
   if (!product) {
     return (
       <div className="text-center py-20 text-muted-foreground">
@@ -100,8 +82,8 @@ const ProductHero = ({ id }: { id: string }) => {
           )}
 
           <div className="mt-auto pt-4 flex flex-col sm:flex-row gap-3">
-            <Link
-              href={product.buyLink ?? "#"}
+            <a
+              href={product.buyLink}
               target="_blank"
               rel="noopener noreferrer"
               className="flex-1"
@@ -109,7 +91,7 @@ const ProductHero = ({ id }: { id: string }) => {
               <Button size="lg" className="w-full text-base font-bold">
                 🛒 Comprar no Mercado Livre
               </Button>
-            </Link>
+            </a>
             <Link href="/" className="sm:w-auto">
               <Button variant="outline" size="lg" className="w-full sm:w-auto">
                 ← Ver mais ofertas
