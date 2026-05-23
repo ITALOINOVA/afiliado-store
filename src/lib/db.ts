@@ -8,7 +8,11 @@ import path from "path"
 import { Product, StoreInfo } from "./types"
 import { STATIC_PRODUCTS, STATIC_STORE } from "./static-data"
 
-const DATA_DIR  = path.join(process.cwd(), "data")
+// Em produção (Vercel/Lambda), process.cwd() é read-only — usa /tmp
+const IS_PROD = process.env.NODE_ENV === "production"
+const DATA_DIR  = IS_PROD
+  ? path.join("/tmp", "afiliado-data")
+  : path.join(process.cwd(), "data")
 const PRODUCTS_FILE = path.join(DATA_DIR, "products.json")
 const STORE_FILE    = path.join(DATA_DIR, "store.json")
 

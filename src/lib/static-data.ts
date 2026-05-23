@@ -384,7 +384,7 @@ export const STATIC_PRODUCTS: Product[] = [
     totalClicks: 0, totalViews: 0, createdAt: "", updatedAt: "", published: true,
   },
   {
-    id: "MLB4290190911", customId: "receptor-digital-sky-conforto-5-ano-pré-pa",
+    id: "MLB4290190911", customId: "receptor-digital-sky-conforto-5-ano-pre-pa",
     title: "Receptor Digital Sky Conforto 5 Ano / Pré Pago Sh26",
     image: "https://http2.mlstatic.com/D_NQ_NP_2X_800096-MLB107025219821_022026-O.jpg",
     currentPrice: 299.0, originalPrice: 334.88, recurrencePrice: 284.05,
@@ -424,7 +424,7 @@ export const STATIC_PRODUCTS: Product[] = [
     totalClicks: 0, totalViews: 0, createdAt: "", updatedAt: "", published: true,
   },
   {
-    id: "MLB4366603177", customId: "receptor-parabólica-digital-tv-conversor-á",
+    id: "MLB4366603177", customId: "receptor-parabolica-digital-tv-conversor-a",
     title: "Receptor Parabólica Digital Tv Conversor Áudio Vídeo Bs990s",
     image: "https://http2.mlstatic.com/D_NQ_NP_2X_721805-MLB100939969992_122025-O.jpg",
     currentPrice: 93.0, originalPrice: 104.16, recurrencePrice: 88.35,
@@ -464,7 +464,7 @@ export const STATIC_PRODUCTS: Product[] = [
     totalClicks: 0, totalViews: 0, createdAt: "", updatedAt: "", published: true,
   },
   {
-    id: "MLB4419719965", customId: "kit-6-receptores-digital-nova-parabólica-v",
+    id: "MLB4419719965", customId: "kit-6-receptores-digital-nova-parabolica-v",
     title: "Kit 6 Receptores Digital Nova Parabólica Vivensis Vx10 Cor Preto",
     image: "https://http2.mlstatic.com/D_NQ_NP_2X_799794-MLA104247351814_012026-O.jpg",
     currentPrice: 597.08, originalPrice: 668.73, recurrencePrice: 567.23,
@@ -474,7 +474,7 @@ export const STATIC_PRODUCTS: Product[] = [
     totalClicks: 0, totalViews: 0, createdAt: "", updatedAt: "", published: true,
   },
   {
-    id: "MLB4473195939", customId: "caixa-de-som-portátil-vibe-sound-v6-party",
+    id: "MLB4473195939", customId: "caixa-de-som-portatil-vibe-sound-v6-party",
     title: "Caixa de Som Portátil Vibe Sound V6 Party 1000W com Bluetooth e Karaokê",
     image: "https://http2.mlstatic.com/D_NQ_NP_2X_987175-MLA107242026021_022026-O.jpg",
     currentPrice: 938.0, originalPrice: 1050.56, recurrencePrice: 891.1,
@@ -494,7 +494,7 @@ export const STATIC_PRODUCTS: Product[] = [
     totalClicks: 0, totalViews: 0, createdAt: "", updatedAt: "", published: true,
   },
   {
-    id: "MLB4607025269", customId: "kit-3-receptor-tv-digital-satélite-paraból",
+    id: "MLB4607025269", customId: "kit-3-receptor-tv-digital-satelite-parabol",
     title: "Kit 3 Receptor Tv Digital Satélite Parabólica Full Hd Bs9900",
     image: "https://http2.mlstatic.com/D_NQ_NP_2X_980161-MLB109549547060_042026-O.jpg",
     currentPrice: 267.0, originalPrice: 299.04, recurrencePrice: 253.65,
@@ -574,7 +574,7 @@ export const STATIC_PRODUCTS: Product[] = [
     totalClicks: 0, totalViews: 0, createdAt: "", updatedAt: "", published: true,
   },
   {
-    id: "MLB6175548202", customId: "kit-3-receptor-digital-multimídia-vivensis",
+    id: "MLB6175548202", customId: "kit-3-receptor-digital-multimidia-vivensis",
     title: "Kit 3 Receptor Digital Multimídia Vivensis Sem Mensalidades",
     image: "https://http2.mlstatic.com/D_NQ_NP_2X_943491-MLB104458115552_012026-O.jpg",
     currentPrice: 319.0, originalPrice: 357.28, recurrencePrice: 303.05,
@@ -584,7 +584,7 @@ export const STATIC_PRODUCTS: Product[] = [
     totalClicks: 0, totalViews: 0, createdAt: "", updatedAt: "", published: true,
   },
   {
-    id: "MLB6404266398", customId: "kit-10-controle-remoto-sênior-para-recepto",
+    id: "MLB6404266398", customId: "kit-10-controle-remoto-senior-para-recepto",
     title: "Kit 10 Controle Remoto Sênior Para Receptor Vivensis Vx10",
     image: "https://http2.mlstatic.com/D_NQ_NP_2X_702227-MLB107322270150_032026-O.jpg",
     currentPrice: 241.53, originalPrice: 270.51, recurrencePrice: 229.45,
@@ -614,7 +614,7 @@ export const STATIC_PRODUCTS: Product[] = [
     totalClicks: 0, totalViews: 0, createdAt: "", updatedAt: "", published: true,
   },
   {
-    id: "MLB6754742278", customId: "câmera-wifi-hd-infravermelha-wr4f-robô-int",
+    id: "MLB6754742278", customId: "camera-wifi-hd-infravermelha-wr4f-robo-int",
     title: "Câmera Wifi Hd Infravermelha Wr4f Robô Inteligente Elsys Cor Branca",
     image: "https://http2.mlstatic.com/D_NQ_NP_2X_621675-MLA84837715395_052025-O.jpg",
     currentPrice: 207.0, originalPrice: 231.84, recurrencePrice: 196.65,
