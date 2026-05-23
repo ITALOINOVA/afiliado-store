@@ -15,7 +15,6 @@ function getClient() {
 
 // ── Conversores ───────────────────────────────────────────────────────────────
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function rowToProduct(row: any): Product {
   return {
     id:              row.id,
@@ -69,7 +68,6 @@ function productToRow(p: Product) {
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function rowToStore(row: any): StoreInfo {
   return {
     id:               row.id,
@@ -181,9 +179,7 @@ export async function readStore(): Promise<StoreInfo> {
 export async function writeStore(store: StoreInfo): Promise<void> {
   if (!SUPABASE_URL) return
   const supabase = getClient()
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const contact: any = store.storeContact ?? {}
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const config: any  = store.storeConfig  ?? {}
 
   await supabase
