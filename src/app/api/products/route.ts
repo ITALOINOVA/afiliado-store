@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from "next/server"
-import { readProducts, saveProduct } from "@/lib/db"
+import { readAllProducts, saveProduct } from "@/lib/db-supabase"
 import { requireAdmin } from "@/lib/auth-server"
 import { v4 as uuidv4 } from "uuid"
 
 export async function GET() {
-  return NextResponse.json(readProducts())
+  return NextResponse.json(await readAllProducts())
 }
 
 export async function POST(req: NextRequest) {
@@ -39,6 +39,6 @@ export async function POST(req: NextRequest) {
     published: body.published ?? true,
   }
 
-  const saved = saveProduct(product)
+  const saved = await saveProduct(product)
   return NextResponse.json(saved, { status: 201 })
 }

@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server"
-import { getProductById, saveProduct, deleteProductById } from "@/lib/db"
+import { getProductById, saveProduct, deleteProductById } from "@/lib/db-supabase"
 import { requireAdmin } from "@/lib/auth-server"
 
 export async function GET(_: NextRequest, { params }: { params: { id: string } }) {
-  const product = getProductById(params.id)
+  const product = await getProductById(params.id)
   if (!product) return NextResponse.json({ error: "Not found" }, { status: 404 })
   return NextResponse.json(product)
 }
@@ -12,11 +12,11 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
   const authError = requireAdmin(req)
   if (authError) return authError
 
-  const existing = getProductById(params.id)
+  const existing = await getProductById(params.id)
   if (!existing) return NextResponse.json({ error: "Not found" }, { status: 404 })
 
   const body  = await req.json()
-  const saved = saveProduct({
+  const saved = await saveProduct({
     ...existing,
     ...body,
     currentPrice:    body.currentPrice  !== undefined ? Number(body.currentPrice)  : existing.currentPrice,
@@ -31,7 +31,7 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
   const authError = requireAdmin(req)
   if (authError) return authError
 
-  const ok = deleteProductById(params.id)
+  const ok = await deleteProductById(params.id)
   if (!ok) return NextResponse.json({ error: "Not found" }, { status: 404 })
   return new NextResponse(null, { status: 204 })
 }
