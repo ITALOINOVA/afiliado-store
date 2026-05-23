@@ -629,7 +629,7 @@ export const STATIC_STORE: StoreInfo = {
   id: "jcgdistribuidora",
   storeName: "JCG Distribuidora",
   storeDescription: "Receptores, LNBFs, Antenas Parabólicas e mais. As melhores marcas com preço de atacado.",
-  storeLogo: null,
+  storeLogo: "https://http2.mlstatic.com/D_NQ_609182-MLA110946015266_052026-OO.webp",
   storeContact: {
     socialWhatsApp: "5511999998888",
     socialInstagram: null,
